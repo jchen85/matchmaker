@@ -1,3 +1,5 @@
+import db from './config'
+
 ///////////////// DB helpers /////////////////////
 
 // get all users

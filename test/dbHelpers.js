@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
+import {getRandomUsers} from '../db/dbHelpers';
 
 describe('database helpers', () => {
 	describe('getRandomUsers', () => {
@@ -25,17 +26,23 @@ describe('database helpers', () => {
 				return createTables();
 			})
 			.then(() => {
-				// this won't actually insert 51 fake users every time because of async issues, but whatever.
 				for (var i = 0; i < 50; i++) {
 					var fakeUser = generateUser();
-					db.query(`INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
-						location_preference,description) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
-						'${fakeUser.birthdayStr}','${fakeUser.zipcode}',${fakeUser.status},${fakeUser.age_min},${fakeUser.age_max},\
-						'${fakeUser.gender_preference}',${fakeUser.location_preference},'Placeholder description');`);
+					var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
+							location_preference,description) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
+							'${fakeUser.birthdayStr}','${fakeUser.zipcode}',${fakeUser.status},${fakeUser.age_min},${fakeUser.age_max},\
+							'${fakeUser.gender_preference}',${fakeUser.location_preference},'Placeholder description');`
+					if (i === 49) {
+						db.query(insertUserQueryStr)
+					  .then(() => {
+					  	done();
+					  });
+					} else {
+						db.query(insertUserQueryStr);
+					}
 				}
 				
 				console.log('tables dropped and recreated; fake users generated');
-				done();
 			})
 			.catch((error) => {
 				throw new Error(error);
@@ -43,7 +50,13 @@ describe('database helpers', () => {
 		});
 
 		it('should return 3 random, different users', () => {
-
+			return getRandomUsers()
+			.then((rows) => {
+				expect(rows.length).to.equal(3);
+			})
+			.catch((err) => {
+				throw new Error(err);
+			});
 		});
 
 	});

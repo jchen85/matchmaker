@@ -25,6 +25,7 @@ describe('database helpers', () => {
 				return createTables();
 			})
 			.then(() => {
+				// this won't actually insert 51 fake users every time because of async issues, but whatever.
 				for (var i = 0; i < 50; i++) {
 					var fakeUser = generateUser();
 					db.query(`INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
@@ -33,7 +34,7 @@ describe('database helpers', () => {
 						'${fakeUser.gender_preference}',${fakeUser.location_preference},'Placeholder description');`);
 				}
 				
-				console.log('tables dropped and recreated')
+				console.log('tables dropped and recreated; fake users generated');
 				done();
 			})
 			.catch((error) => {

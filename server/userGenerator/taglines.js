@@ -86,14 +86,14 @@ export default function generateUser() {
     last_name: random_name({ last: true }),
     gender: gender,
     birthday: birthday, // TODO
-    birthdayStr: birthdayStr,
+    birthdayStr: birthdayStr, // Use birthdayStr if you want to insert into the DB
     zipcode: zipcode(), // TODO
     status: true, // this can just be a boolean, whether they can be matched
     age_min: minAge, // birthday minus random number between 2 and 5 (floor 21)
     age_max: maxAge, // birthday plus random number between 2 and 10 (floor 21)
     gender_preference: genderPreference(gender), // homosexual ~10% of the time
     location_preference: 5, // just default to 5 mile radius, zipcodes.radius(zipcode, 5) returns a list of all zipcodes in radius
-    description: descriptions[Math.floor(Math.random()*descriptions.length)],
+    description: descriptions[Math.floor(Math.random()*descriptions.length)], // this field doesn't insert correctly into DB due to escape chars
     // image_url: userImage(gender) 
   }
 

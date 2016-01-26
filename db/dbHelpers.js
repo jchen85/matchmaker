@@ -8,14 +8,11 @@ export function getRandomUsers (err, callback) {
 	return db.query("SELECT count(*) AS ct, min(user_id)  AS min_id, max(user_id)  AS max_id, max(user_id) - min(user_id) AS id_span FROM users;")
 				 .then((rows) => {
 				 	// this is the actual query which pulls 3 random distinct rows from the users table
-				 		return db.query(`SELECT * \
-										FROM  (\
+				 		return db.query(`SELECT * FROM  (\
 										    SELECT DISTINCT 1 + trunc(random() * ${rows[0].id_span})::integer AS user_id \
-										    FROM   generate_series(1, ${rows[0].max_id * 1.1}) g \
-										    ) r \
-										JOIN   users USING (user_id) \
-										LIMIT  3;`)
-				 });
+										    FROM   generate_series(1, ${rows[0].max_id * 1.1}) g )
+										    r JOIN users USING (user_id) LIMIT  3;`)
+				 		});
 }
 // get all users
 

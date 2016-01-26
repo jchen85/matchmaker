@@ -31,7 +31,9 @@ describe('database helpers', () => {
 					var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
 							location_preference,description) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
 							'${fakeUser.birthdayStr}','${fakeUser.zipcode}',${fakeUser.status},${fakeUser.age_min},${fakeUser.age_max},\
-							'${fakeUser.gender_preference}',${fakeUser.location_preference},'Placeholder description');`
+							'${fakeUser.gender_preference}',${fakeUser.location_preference},'Placeholder description');`;
+
+				// run done() after the 50th user is generated to end the before block, otherwise run the query without resolving the promise
 					if (i === 49) {
 						db.query(insertUserQueryStr)
 					  .then(() => {
@@ -53,6 +55,9 @@ describe('database helpers', () => {
 			return getRandomUsers()
 			.then((rows) => {
 				expect(rows.length).to.equal(3);
+				expect(rows[0]).not.to.equal(rows[1]);
+				expect(rows[1]).not.to.equal(rows[2]);
+				expect(rows[0]).not.to.equal(rows[2]);
 			})
 			.catch((err) => {
 				throw new Error(err);

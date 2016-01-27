@@ -8,4 +8,8 @@ export default function (app, express) {
 			res.json(rows);
 		})
 	});
+
+	app.get('/match', function(req, res) {
+		res.sendFile(path.join(__dirname, '..', '/client/testview.html'));
+	})
 }

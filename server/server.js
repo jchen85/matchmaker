@@ -23,9 +23,9 @@ require('./routes')(app, express);
 
 //Set up static files
 // app.use(express.static(path.join(__dirname ,'../client')));
-app.use(function(req, res) {
-  res.sendFile(path.join(__dirname, '..', '/client/index.html'));
-});
+// app.use(function(req, res) {
+//   res.sendFile(path.join(__dirname, '..', '/client/index.html'));
+// });
 
 // Set up ports
 var port = process.env.PORT || 3000;

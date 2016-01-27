@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
-    __dirname + '/client/index'
+    __dirname + '/client2/index'
   ],
   output: {
     path: path.join(__dirname, 'dist'),

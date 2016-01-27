@@ -14,10 +14,8 @@ function counter(state = 0, action) {
 }
 
 function candidates(state = [null, null, null], action) {
-	console.log('candidates reducer')
 	switch (action.type) {
 		case NEW_CANDIDATES:
-			console.log('NEW_CANDIDATES state', state)
     	return action.candidates
 		default:
 			return state

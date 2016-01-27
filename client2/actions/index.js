@@ -1,4 +1,3 @@
-require('es6-promise').polyfill()
 import 'isomorphic-fetch'
 
 export const INCREMENT_COUNTER = 'INCREMENT_COUNTER'
@@ -44,7 +43,6 @@ export function getRandomUsers() {
         return response.json()
       })
       .then(results => {
-        console.log(results)
         return dispatch({
           type: NEW_CANDIDATES,
           candidates: results

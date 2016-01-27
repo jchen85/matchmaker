@@ -7,15 +7,18 @@ import * as Actions from '../actions'
 import Candidate from '../components/Candidate'
 
 class Root extends Component {
+	componentDidMount() {
+		this.props.getRandomUsers()
+	}
+
   render() {
   	window.store = this.props
-    console.log(this.props);
     return (
-        <div>
-        	<Candidate candidate={this.props.candidates[0]} />
-        	<Candidate candidate={this.props.candidates[1]} />
-        	<Candidate candidate={this.props.candidates[2]} />
-        </div>
+    	<div>
+	    	<Candidate candidate={this.props.candidates[0]} />
+	    	<Candidate candidate={this.props.candidates[1]} />
+	    	<Candidate candidate={this.props.candidates[2]} />
+    	</div>
     )
   }
 }
